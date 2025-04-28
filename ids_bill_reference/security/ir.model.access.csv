@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ids_bill_reference_references_all,references_manager,model_account_bill_reference,,1,1,1,1

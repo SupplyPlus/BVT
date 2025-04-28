@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_view_inh_margin" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.sale.margin</field>
+            <field name="model">sale.order</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('text-nowrap')]" position="attributes">
+                    <attribute name="groups">ids_access_right.sales_report_margin_group</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

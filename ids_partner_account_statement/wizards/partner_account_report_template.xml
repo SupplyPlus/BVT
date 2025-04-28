@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="account_book_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+
+                    <style>
+                        .table_no_border td{
+                        color:black !important;
+                        font-size:18px !important;
+                        font-weight:bold !important;
+                        text-align:left !important;
+                        }
+                        tr{
+                        border:0px solid black !important;
+                        }
+                        .table_border td{
+                        color:black !important;
+                        font-size:14px !important;
+                        text-align:left !important;
+                        font-weight:bold !important;
+                        vertical-align:middle !important;
+                        }
+                        tr{
+                        border:1px solid black;
+                        }
+                    </style>
+                    <div class="page">
+                        <t t-foreach="lines" t-as="line">
+                            <div style="font-size:26px">
+                                Reported Printed By :
+                                <span t-esc="line[3]"/>
+                            </div>
+                            <br/>
+                            <div class="text-center" style="font-size:27px">
+                                Partner Statement
+                            </div>
+                            <br/>
+                            <table width="100%" class="table_no_border text-left">
+                                <tr>
+                                    <td colspan="8" style="text-align:center !important">
+                                        <span style="padding:10px">
+                                            From Date :
+                                        </span>
+                                        <span style="padding:10px">
+                                            <span t-esc="line[1]"/>
+                                        </span>
+                                        <span style="padding:10px">
+                                            ------------>
+                                        </span>
+                                        <span style="padding:10px">
+                                            To Date :
+                                        </span>
+                                        <span style="padding:10px">
+                                            <span t-esc="line[2]"/>
+                                        </span>
+                                        <span style="padding:10px">
+                                            Reporting Currency :
+                                        </span>
+                                        <span style="padding:10px">
+                                            Riyal
+                                        </span>
+
+                                    </td>
+                                </tr>
+                                <!--                                <thead>-->
+                                <!--                                    <tr style="border:1px solid black !important">-->
+                                <!--                                        <td width="12%" style="padding-left:10px">-->
+                                <!--                                            From Date :-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="15%">-->
+                                <!--                                            <span t-esc="line[1]"/>-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="13%">-->
+                                <!--                                            &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="10%">-->
+                                <!--                                            To Date :-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="15%">-->
+                                <!--                                            <span t-esc="line[2]"/>-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="20%">-->
+                                <!--                                            Reporting Currency :-->
+                                <!--                                        </td>-->
+                                <!--                                        <td width="15%">-->
+                                <!--                                            Riyal-->
+                                <!--                                        </td>-->
+                                <!--                                    </tr>-->
+                                <!--                                </thead>-->
+                            </table>
+                            <table width="100%" class="text-left table_border">
+                                <thead>
+                                    <tr>
+                                        <td width="15%" style="padding-left:5px">
+                                            <span>JRNL</span>
+                                            <br/>
+                                            <span>Date</span>
+                                        </td>
+                                        <td width="15%" style="text-align:center !important">
+                                            Account
+                                        </td>
+                                        <td width="20%" style="text-align:center !important">
+                                            Ref
+                                        </td>
+                                        <td width="10%" style="text-align:center !important">
+                                            Due Date
+                                        </td>
+                                        <td width="10%" style="text-align:center !important">
+                                            Matching Number
+                                        </td>
+                                        <td width="10%" style="text-align:center !important">
+                                            Debit
+                                        </td>
+                                        <td width="10%" style="text-align:center !important">
+                                            Credit
+                                        </td>
+                                        <td width="10%" style="text-align:center !important">
+                                            Balance
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8"
+                                            style="padding-left:10px;text-align:center !important">
+                                            <span style="padding-left:10px !important;font-size:18px !important">
+                                                Partner :
+                                                <span t-esc="line[4]"/>
+                                            </span>
+                                            <!--                                            <span style="padding-left:10px !important;font-size:18px !important">-->
+                                            <!--                                                Journal :-->
+                                            <!--                                                <span t-esc="line[5]"/>-->
+                                            <!--                                            </span>-->
+                                            <span style="padding-left:10px !important;font-size:18px !important">
+                                                Currency :
+                                                <span>
+                                                    Riyal
+                                                </span>
+                                            </span>
+                                            <span style="padding-left:10px !important;font-size:18px !important">
+                                                Opening Balance :
+                                                <span t-esc="'{0:,.2f}'.format(float(line[0]))"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-left">
+                                    <t t-foreach="line[5]" t-as="item">
+                                        <tr>
+                                            <td width="15%" style="padding-left:5px">
+                                                <span t-esc="item['journal']"/>
+                                                <br/>
+                                                <span t-esc="item['date']"/>
+                                            </td>
+                                            <td width="15%" style="text-align:center !important">
+                                                <span t-esc="item['account']"/>
+                                            </td>
+                                            <td width="20%" style="text-align:center !important">
+                                                <span t-esc="item['label']"/>
+                                            </td>
+                                            <td width="10%" style="text-align:center !important">
+                                                <span t-esc="item['due_date']"/>
+                                            </td>
+                                            <td width="10%" style="text-align:center !important">
+                                                <span t-esc="matching_number"/>
+                                            </td>
+                                            <td width="10%" style="text-align:center !important">
+                                                <span t-esc="'{0:,.2f}'.format(float(item['debit']))"/>
+                                            </td>
+                                            <td width="10%" style="text-align:center !important">
+                                                <span t-esc="'{0:,.2f}'.format(float(item['credit']))"/>
+                                            </td>
+                                            <td width="10%" style="text-align:center !important">
+                                                <span t-esc="'{0:,.2f}'.format(float(item['balance']))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

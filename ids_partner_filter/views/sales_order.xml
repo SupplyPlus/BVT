@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sale_order_form_view_inh" model="ir.ui.view">
+            <field name="name">sale.order.view.form.inh</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('customer_rank', '>', 0)]</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="sales_rep"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="sale_report_inh_search_rep" model="ir.ui.view">
+            <field name="name">view.order.product.search.inherit</field>
+            <field name="model">sale.report</field>
+            <field name="inherit_id" ref="sale.view_order_product_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="sales_rep"/>
+                    <group>
+                        <filter string="Sales Rep" name="sales_rep" context="{'group_by': 'sales_rep'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_sales_order_filter_inh" model="ir.ui.view">
+            <field name="name">sale.order.search.inh</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="sales_rep"/>
+                    <group>
+                        <filter string="Sales Rep" name="sales_rep" context="{'group_by': 'sales_rep'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

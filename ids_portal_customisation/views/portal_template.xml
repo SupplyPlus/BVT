@@ -1,0 +1,173 @@
+<odoo>
+    <template id="inherit_portal_my_purchase_rfqs" inherit_id="purchase.portal_my_purchase_rfqs">
+        <xpath expr="//t[@t-as='rfq']/tr" position="inside">
+            <td class="text-end">
+                <button type="button" class="btn btn-primary" t-att-data-id="rfq.id"
+                        onclick="confirmRFQ(this)">
+                    Confirm
+                </button>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="inherit_portal_my_purchase_order" inherit_id="purchase.portal_my_purchase_order">
+        <xpath expr="//div[hasclass('o_download_pdf')]" position="after">
+            <t t-if="order.state in ['draft', 'sent']">
+                <div class="w-100 mb-2"></div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-secondary"
+                            onclick="confirmRFQ(this)"
+                            t-att-data-id="order.id">
+                        Confirm
+                    </button>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="inherit_portal_my_purchase_orders" inherit_id="purchase.portal_my_purchase_orders">
+        <xpath expr="//t[@t-as='order']/tr" position="inside">
+            <td class="text-end">
+                <button type="button" class="btn btn-primary" t-att-data-id="order.id"
+                        onclick="viewReceipt(this)">
+                    View Receipt
+                </button>
+            </td>
+        </xpath>
+    </template>
+    <template id="inherit_portal_content" inherit_id="purchase.purchase_order_portal_content">
+        <xpath expr="//div[@id='informations']/div[2]/div" position="inside">
+            <div t-att-class="">
+                <strong>Delivery Date:</strong>
+                <span class="ms-1" t-field="order.date_planned" t-options='{"widget": "date"}'/>
+            </div>
+        </xpath>
+        <xpath expr="//table[@id='purchase_order_table']/thead/tr/th[5]" position="replace">
+            <th t-if="not update_dates and order.state in ['purchase', 'done', 'draft','sent']"
+                t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Unit Price
+            </th>
+        </xpath>
+
+        <xpath expr="//table[@id='purchase_order_table']/tbody[hasclass('purchase_tbody')]/t[2]/tr/t/td[5]" position="replace">
+            <td t-if="not update_dates and order.state in ['purchase', 'done', 'draft','sent']"
+                t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                <div
+                        t-field="line.price_unit"
+                        class="text-end"
+                />
+            </td>
+        </xpath>
+
+
+    </template>
+
+
+    <template id="portal_my_purchase_receipt" name="My Purchase Receipt">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Receipt</t>
+            </t>
+            <t t-if="not receipts">
+                <p>There are currently receipts for your account.</p>
+            </t>
+            <div class="container" style="background-color: white; padding: 20px;">
+                <h1>Receipt</h1>
+
+                <h2>Purchase Order:
+                    <span t-esc="purchase_order.name"/>
+                </h2>
+                <p>Purchase Date:
+                    <span t-esc="purchase_order.date_order" t-options="{'widget': 'date'}"/>
+                    <span class='d-none d-md-inline' t-field="purchase_order.date_order"
+                          t-options="{'time_only': True}"/>
+                </p>
+                <p>Total:
+                    <span t-esc="purchase_order.amount_total"/>
+                </p>
+
+                <h2>Receipts</h2>
+                <t t-if="receipts">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="active">
+                                <th>Receipt #</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="receipts" t-as="receipt">
+                                <tr>
+                                    <td>
+                                        <span t-esc="receipt.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="receipt.create_date" t-options="{'widget': 'date'}"/>
+                                        <span class='d-none d-md-inline' t-field="receipt.create_date"
+                                              t-options="{'time_only': True}"/>
+
+                                    </td>
+                                    <td>
+                                        <span t-if="receipt.state == 'draft'" class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-file-text" role="img" aria-label="Draft"
+                                               title="Draft"></i>
+                                            <span class="d-none d-md-inline">Draft</span>
+                                        </span>
+                                        <span t-if="receipt.state == 'confirmed'"
+                                              class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-file-text" role="img" aria-label="Confirmed"
+                                               title="Confirmed"></i>
+                                            <span class="d-none d-md-inline">Confirmed</span>
+                                        </span>
+                                        <span t-if="receipt.state == 'waiting'" class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-file-text" role="img" aria-label="Waiting"
+                                               title="Waiting"></i>
+                                            <span class="d-none d-md-inline">Waiting</span>
+                                        </span>
+                                        <span t-if="receipt.state == 'assigned'"
+                                              class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-file-text" role="img" aria-label="Assigned"
+                                               title="Assigned"></i>
+                                            <span class="d-none d-md-inline">Assigned</span>
+                                        </span>
+                                        <span t-if="receipt.state == 'cancel'"
+                                              class="badge rounded-pill text-bg-secondary">
+                                            <i class="fa fa-fw fa-remove" role="img" aria-label="Cancelled"
+                                               title="Cancelled"></i>
+                                            <span class="d-none d-md-inline">Cancelled</span>
+                                        </span>
+                                        <span t-if="receipt.state == 'done'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"></i>
+                                            <span class="d-none d-md-inline">Done</span>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <t t-else="">
+                    <p>No receipts found for this purchase order.</p>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_menu_purchase_receipt" name="Portal layout : purchase Receipt entries"
+              inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'receipt'" t-attf-class="breadcrumb-item #{'active ' if not receipts else ''}">
+                <a t-if="receipts" t-attf-href="/my/purchase?{{ keep_query() }}">Purchase Order</a>
+                <t t-else="">Purchase Order</t>
+            </li>
+            <li t-if="receipts" class="breadcrumb-item active">
+                <t>Receipt</t>
+            </li>
+        </xpath>
+    </template>
+
+
+</odoo>
+

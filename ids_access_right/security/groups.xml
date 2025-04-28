@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_cost_group" model="res.groups">
+            <field name="name">Product Cost</field>
+        </record>
+        <record id="sales_report_margin_group" model="res.groups">
+            <field name="name">Sales Margin</field>
+        </record>
+    </data>
+</odoo>

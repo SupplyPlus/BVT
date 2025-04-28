@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record model="ir.ui.view" id="view_product_category_inh">-->
+<!--            <field name="name">product.category.form.inh</field>-->
+<!--            <field name="model">product.category</field>-->
+<!--            <field name="inherit_id" ref="product.product_category_form_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='next_no']" position="after">-->
+<!--                    <field name="brand_id"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

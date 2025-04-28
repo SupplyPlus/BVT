@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+		<record id="sale_order_analytic_account_id" model="ir.ui.view">
+		    <field name="name">sale.order.view.analytic_account_id</field>
+		    <field name="model">sale.order</field>
+		    <field name="inherit_id" ref="sale.view_order_form"/>
+		    <field name="arch" type="xml">
+			   <xpath expr="//field[@name='fiscal_position_id']" position="after">
+                   <field name="analytic_account_id" invisible='1'/>
+                </xpath>
+		    </field>
+        </record>
+		
+		<!--<record id="view_order_form_inherit" model="ir.ui.view">
+		    <field name="name">sale.order.form.inherit</field>
+		    <field name="model">sale.order</field>
+		    <field name="inherit_id" ref="sale.view_order_form"/>
+		    <field name="arch" type="xml">
+			<field name="client_order_ref" position="before">
+			    <field name="analytic_account_id" invisible='1' />
+			</field>
+		    </field>
+        </record>-->
+		
+		<record id="view_account_invoice_report_graph_inherit" model="ir.ui.view">
+		    <field name="name">account.invoice.report.graph.inherit</field>
+		    <field name="model">account.invoice.report</field>
+		    <field name="inherit_id" ref="account.view_account_invoice_report_graph"/>
+		    <field name="arch" type="xml">
+			   <xpath expr="//field[@name='product_categ_id']" position="before">
+                   <field name="price_subtotal" type="measure"/>
+                </xpath>
+		    </field>
+        </record>
+	    
+	    
+	    
+	   
+	    
+	    
+	    
+		
+		 
+
+		
+    </data>
+</odoo>

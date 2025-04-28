@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+
+
+        <record id="view_picking_custom_search" model="ir.ui.view">
+            <field name="name">stock.picking.custom.search</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Picking Lists">
+                    <field name="name" string="Transfer"
+                           filter_domain="['|', ('name', 'ilike', self), ('origin', 'ilike', self)]"/>
+                    <field name="partner_id" filter_domain="[('partner_id', 'child_of', self)]"/>
+                    <field name="origin"/>
+                    <field name="product_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="move_line_ids"
+                           string="Package"
+                           filter_domain="['|', ('move_line_ids.package_id.name', 'ilike', self), ('move_line_ids.result_package_id.name', 'ilike', self)]"
+                           groups="stock.group_tracking_lot"/>
+                    <!--upd-->
+<!--                    <field name="lot_id" groups="stock.group_production_lot"/>-->
+
+                    <separator/>
+                    <filter string="Late" name="late"
+                            domain="[('scheduled_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                            help="Show all records which has next action date is before today"/>
+                    <filter string="Today" name="today"
+                            domain="[('scheduled_date', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                                     ('scheduled_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+
+                    <filter string="Future" name="future"
+                            domain="[('scheduled_date', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Customer" name="customer" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Source Document" name="origin" domain="[]" context="{'group_by': 'origin'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="view_picking_kanban_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+            <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                    <field name="origin"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_picking_own_delivery" model="ir.actions.act_window">
+            <field name="name">Receipt Schedule</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('picking_type_code','=', 'incoming'),('state','not in', ('done','cancel')),('user_id','=',uid)]</field>
+            <field name="context">{'restricted_picking_type_code': 'outgoing','search_default_today': 1}</field>
+            <field name="search_view_id" ref="view_picking_custom_search"/>
+
+        </record>
+
+
+        <menuitem name="Receipt Schedule" id="menu_deliveries" sequence="1"
+                  groups="stock.group_stock_manager,stock.group_stock_user"
+                  web_icon="/ids_deliveries/static/description/delivery.png"/>
+        <menuitem id="sub_menu_deliveries" name="Receipt Schedule" parent="menu_deliveries"
+                  action="action_picking_own_delivery" sequence="1"/>
+
+    </data>
+</odoo>

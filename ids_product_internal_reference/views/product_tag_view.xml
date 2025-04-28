@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="inherit_view_product_tag_form_view">
+            <field name="name">product.tag.form</field>
+            <field name="model">product.tag</field>
+            <field name="inherit_id" ref="product.product_tag_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Sequence">
+                            <group>
+                                <group string="Sequence">
+                                    <field name="code_prefix"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

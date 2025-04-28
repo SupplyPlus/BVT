@@ -1,0 +1,82 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Jupical Technologies Pvt. Ltd.
+#    Copyright (C) 2018-TODAY Jupical Technologies(<http://www.jupical.com>).
+#    Author: Jupical Technologies Pvt. Ltd.(<http://www.jupical.com>)
+#    you can modify it under the terms of the GNU LESSER
+#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies
+#    of the Software or modified copies of the Software.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
+#
+#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
+#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
+#    If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+from odoo import models, fields, api
+from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo.exceptions import AccessError, UserError, ValidationError
+from lxml import etree
+import logging
+
+_logger = logging.getLogger(__name__)
+
+class AccountMove(models.Model):
+
+    _inherit = 'account.move'
+    _description = "Adding Fields to Sale"
+    
+    name = fields.Char(string='Journal Name')
+    # type = fields.Selection([
+    #         ('sale', 'Sales'),
+    #         ('purchase', 'Purchase'),
+    #         ('cash', 'Cash'),
+    #         ('bank', 'Bank'),
+    #         ('general', 'Miscellaneous'),
+    #     ],
+    #     help="Select 'Sale' for customer invoices journals.\n"\
+    #     "Select 'Purchase' for vendor bills journals.\n"\
+    #     "Select 'Cash' or 'Bank' for journals that are used in customer or vendor payments.\n"\
+    #     "Select 'General' for miscellaneous operations journals.")
+    code = fields.Char(string='Short Code', size=5, help="Shorter name used for display. The journal entries of this journal will also be named using this prefix by default.")
+        
+    
+    '''@api.onchange('journal_id')
+    def _onchange_uom_id(self):
+        if self.journal_id:
+            self.type = self.type.id'''   
+        
+    '''@api.model
+    def _fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        print(self._context,'self._context')
+        res = super(AccountMove, self)._fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if self.user_has_groups('base.group_user'):
+                for t in doc.xpath("//field[@name='line_ids']//tree//field[@name='analytic_account_id']"):
+                	analytic_account_id = self.env.user.multi_account_ids.ids
+                	t.attrib['domain'] = "[('id','in',%s)]"%analytic_account_id
+                
+        res['arch'] = etree.tostring(doc)
+        return res'''
+
+class AccountMoveLine(models.Model):
+
+    _inherit = 'account.move.line'
+
+
+    def get_analytic_account(self):
+        name=''
+        if self.analytic_distribution:
+            for analytic in self.analytic_distribution.keys():
+                analytic_account=self.env['account.analytic.account'].search([('id','=',analytic)])
+                if analytic_account:
+                    name+=str(analytic_account.name)+'/'
+        return name

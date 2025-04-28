@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.sequence" id="customer_sequence_ref">
+            <field name="name">Customer Sequence Ref</field>
+            <field name="code">customer.seq.ref</field>
+            <field name="prefix">C</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="vendor_sequence_ref">
+            <field name="name">Vendor Sequence Ref</field>
+            <field name="code">vendor.seq.ref</field>
+            <field name="prefix">V</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<odoo>
+    <record id="product_sub_category_view_inherited" model="ir.ui.view">
+        <field name="name">product.sub.category.inherit</field>
+        <field name="model">product.tag</field>
+        <field name="inherit_id" ref="product.product_tag_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="arabic_name"/>
+                <field name="category_id"/>
+                <field name="position"/>
+                <field name="status"/>
+                <field name="web_image" widget="image" options="{'size': [120, 120]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_tag_action" model="ir.actions.act_window">
+        <field name="name">Product Sub Categories</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.tag</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Define a new tag
+          </p><p>
+            Tags are used to search product for a given theme.
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_sub_category"
+              name="Product Sub Categories"
+              parent="stock.menu_product_in_config_stock"
+              action="product_tag_action"
+              sequence="1"/>
+</odoo>

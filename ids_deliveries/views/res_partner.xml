@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="view_res_partner_custom" model="ir.ui.view">
+            <field name="name">res.partner.custom.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='property_supplier_payment_term_id']" position="inside">-->
+<!--                    -->
+<!--                </xpath>-->
+                <xpath expr="//page[@name='sales_purchases']/group/group[@name='purchase']/field[@name='property_supplier_payment_term_id']" position="before">
+                    <field name="responsible_id"/>
+                </xpath>
+            </field>
+
+        </record>
+    </data>
+</odoo>

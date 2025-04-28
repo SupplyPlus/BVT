@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_segment_form" model="ir.ui.view">
+         <field name="name">segment.form</field>
+        <field name="model">product.segment</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="arabic_name"/>
+                            <field name="position"/>
+                            <field name="status"/>
+                            <field name="web_image" widget="image" options="{'size': [120, 120]}"/>
+                         </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_segment_tree" model="ir.ui.view">
+        <field name="name">segment.tree</field>
+        <field name="model">product.segment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product_segment" model="ir.actions.act_window">
+        <field name="name">Segment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.segment</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <menuitem id="menu_product_segment"
+              name="Segment"
+              parent="stock.menu_product_in_config_stock"
+              action="action_product_segment"
+              sequence="3"/>
+</odoo>

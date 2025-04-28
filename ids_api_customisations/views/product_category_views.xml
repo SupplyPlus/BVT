@@ -1,0 +1,24 @@
+<odoo>
+    <record id="product_category_view_inherited" model="ir.ui.view">
+        <field name="name">product.category.inherit</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="before">
+               <label for="arabic_name" string="Arabic Name"/>
+                <field name="arabic_name"/>
+
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="after">
+
+                <label for="position" string="Position"/>
+                <field name="position"/>
+                <label for="status" string="Status"/>
+                <field name="status"/>
+                <label for="web_image" string="Image"/>
+                <field name="web_image" widget="image" options="{'size': [120, 120]}"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

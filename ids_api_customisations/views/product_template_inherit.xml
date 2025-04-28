@@ -1,0 +1,140 @@
+<odoo>
+    <record id="product_product_view_image_inherited" model="ir.ui.view">
+        <field name="name">product.product.image</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Product Images" name="product_images">
+                    <group>
+                        <field name="product_image_ids" widget="many2many_binary"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_easy_view_inherited" model="ir.ui.view">
+        <field name="name">product.product.easy.view.inherited</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//group[@name='pricing']" position="after">
+
+
+                <group>
+                    <field name="segment_ids" widget="many2many_tags" string="Segments"/>
+                    <field name="brand_id" string="Brand"/>
+                    <field name="product_image_ids" widget="many2many_binary"/>
+
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_view_inherited" model="ir.ui.view">
+        <field name="name">metal.product</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='options']" position="before">
+                <group>
+                    <field name="arabic_name"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_policy']" position="after">
+
+                <field name="arabic_description"/>
+            </xpath>
+
+            <xpath expr="//field[@name='categ_id']" position="before">
+                <field name="segment_ids" widget="many2many_tags"/>
+                <field name="brand_id"/>
+            </xpath>
+
+            <xpath expr="//field[@name='product_tag_ids']" position="attributes">
+                <attribute name="string">Subcategory</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="product_tree_view_inherited" model="ir.ui.view">
+        <field name="name">product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tag_ids']" position="attributes">
+                <attribute name="string">Subcategory</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_tree_view_inherited" model="ir.ui.view">
+        <field name="name">product.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tag_ids']" position="attributes">
+                <attribute name="string">Subcategory</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!--    <record id="metal_type_details_product" model="ir.ui.view">-->
+    <!--        <field name="name">metal.detail.product</field>-->
+    <!--        <field name="model">product.template</field>-->
+    <!--        <field name="inherit_id" ref="product.product_template_form_view"/>-->
+    <!--        <field name="arch" type="xml">-->
+
+    <!--            <xpath expr="//field[@name='name']" position="attributes">-->
+    <!--                <attribute name="placeholder">e.g. Ring</attribute>-->
+    <!--            </xpath>-->
+
+    <!--            <xpath expr="//field[@name='detailed_type']" position="after">-->
+    <!--                <field name="metal_type_id"/>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//div[@name='standard_price_uom']" position="after">-->
+    <!--                <field name="manufacturing_price" force_save="1"/>-->
+    <!--                <field name="total_price"/>-->
+    <!--            </xpath>-->
+
+    <!--            <xpath expr="//page[@name='general_information']/group[1]" position="after">-->
+    <!--                <field name="stone_detail_ids" widget="One2many">-->
+    <!--                    <tree editable="bottom">-->
+    <!--                        <field name="stone_id"/>-->
+    <!--                        <field name="shape"/>-->
+    <!--                        <field name="color"/>-->
+    <!--                        <field name="clarity"/>-->
+    <!--                        <field name="cut"/>-->
+    <!--                        <field name="polish"/>-->
+    <!--                        <field name="symmetry"/>-->
+    <!--                        <field name="fluorescence"/>-->
+    <!--                        <field name="weight"/>-->
+    <!--                    </tree>-->
+    <!--                </field>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//field[@name='uom_po_id']" position="after">-->
+    <!--                <field name="product_weight"/>-->
+    <!--                <field name="stone_weight"/>-->
+    <!--                <field name="brand_id" string="Brand"/>-->
+    <!--                <field name="rfid_tag_number" invisible="1"/>-->
+    <!--            </xpath>-->
+
+    <!--            <xpath expr="//div[@name='options']" position="inside">-->
+    <!--                <span class="d-inline-block">-->
+    <!--                    <field name="is_used"/>-->
+    <!--                    <label for="is_used"/>-->
+    <!--                </span>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="ageing_report_form_view" model="ir.ui.view">
+        <field name="name">Ageing Report</field>
+        <field name="model">ageing.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <label for="start_date" string="Date"/>
+                            <div class="o_row">
+                                <field name="start_date" required="1"/> To
+                                <field name="end_date" required="1"/>
+                            </div>
+                            <field name="account_type" required="1"/>
+
+                                <field name="sale_rep_id"/>
+
+                                <field name="partner_id" />
+
+                        </group>
+                    </group>
+
+                    <footer>
+                         <button name="action_ageing_report" string="Report" type="object" class="oe_highlight"/>
+
+                    </footer>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ageing_report" model="ir.actions.act_window">
+        <field name="name">Ageing Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ageing.report.wizard</field>
+        <field name="context">{}</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+     <menuitem id="ageing_report_menu"
+              name="Ageing Report"
+              parent="account.menu_finance_reports"
+              sequence="5"
+              action="action_ageing_report"/>
+
+
+
+</odoo>

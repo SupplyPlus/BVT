@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--inherit product template to add tab for multi uom  -->
+    <record id="product_template_form_view_inh" model="ir.ui.view">
+        <field name="name">product.template.common.form.inh</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']/group/group[last()]" position="after">
+                <field name="uom_category_id" invisible="1"/>
+                <group attrs="{'invisible': [('uom_category_id', '!=', False)]}" invisible="1">
+                    <group>
+                        <field name="so_uom_name"/>
+                    </group>
+                    <group>
+                        <div class="o_row">
+                            <b>PO UOM</b>
+                            <field name="po_uom_name"/>
+                            <span>=</span>
+                            <field name="po_uom_factor" nolabel="1"/>
+                        </div>
+                    </group>
+                    <group>
+                        <div class="o_row">
+                            <b>Storage UOM</b>
+                            <field name="storage_uom_name"/>
+                            <span>=</span>
+                            <field name="storage_uom_factor" nolabel="1"/>
+                        </div>
+                    </group>
+                </group>
+                <!--                <group string="Unit Of Measure">-->
+
+                <!--                </group>-->
+
+                <!--                <field name="uom_ids"-->
+                <!--                       context="{'default_signed_ratio': 1, 'default_category_id': uom_category_id}"-->
+                <!--                       attrs="{'invisible':[('uom_category_id','=',False)]}">-->
+                <!--                    <tree editable="bottom" create="1">-->
+                <!--                        <field name="product_tmpl_id" invisible="1"/>-->
+                <!--                        <field name="uom_product_type" required="1" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                <!--                        <field name="name" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                <!--                        <field name="is_create" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                <!--                        <field name="uom_type" invisible="1"/>-->
+                <!--                        <field name="category_id" invisible="1"/>-->
+                <!--                        <field name="signed_ratio" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                <!--                        <field name="main_uom_name" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                <!--                        <field name="rounding" invisible="1"/>-->
+                <!--                        <field name="is_main_uom" invisible="1"/>-->
+                <!--                    </tree>-->
+                <!--                </field>-->
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="" string="Multi Unit Of Measure">
+                    <field name="uom_ids"
+                           context="{'default_signed_ratio': 1, 'default_category_id': uom_category_id}"
+                           attrs="{'invisible':[('uom_category_id','=',False)]}">
+                        <tree editable="bottom" create="1">
+                            <field name="product_tmpl_id" invisible="1"/>
+                            <field name="uom_product_type" required="1"
+                                   attrs="{'readonly':[('is_create','=',True)]}"/>
+                            <field name="name" attrs="{'readonly':[('is_create','=',True)]}"/>
+                            <field name="is_create" attrs="{'readonly':[('is_create','=',True)]}"/>
+                            <field name="uom_type" invisible="1"/>
+                            <field name="category_id" invisible="1"/>
+                            <field name="signed_ratio"/>
+                            <!--                                <field name="signed_ratio" attrs="{'readonly':[('is_create','=',True)]}"/>-->
+                            <field name="main_uom_name" attrs="{'readonly':[('is_create','=',True)]}"/>
+                            <field name="rounding" invisible="1"/>
+                            <field name="is_main_uom" invisible="1"/>
+                        </tree>
+                    </field>
+
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='uom_id']" position="attributes">
+                <attribute name="domain">[('category_id', '=', uom_category_id)]</attribute>
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+                <attribute name="required">False</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="attributes">
+                <attribute name="domain">[('category_id', '=', uom_category_id)]</attribute>
+                <attribute name="options">{'no_open':True,'no_create':True}</attribute>
+                <attribute name="required">False</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='uom_po_id']" position="after">
+                <field name="inv_uom_id" invisible="1"/>
+            </xpath>
+<!--             <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="brand_id"/>
+            </xpath> -->
+        </field>
+    </record>
+    <record id="stock_report_tree_inh_view_uom" model="ir.ui.view">
+        <field name="name">Stock.uom</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_stock_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_id']" position="after">
+                <field name="po_on_hand_qty" optional="show"/>
+                <field name="po_free_to_use" optional="show"/>
+                <field name="po_uom_outgoing" optional="show"/>
+                <field name="po_uom_id" options="{'no_open':True,'no_create': True,'no_edit': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='avg_cost']" position="attributes">
+                <attribute name="groups">ids_access_right.product_cost_group</attribute>
+            </xpath>
+            <xpath expr="//field[@name='total_value']" position="attributes">
+                <attribute name="groups">ids_access_right.product_cost_group</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

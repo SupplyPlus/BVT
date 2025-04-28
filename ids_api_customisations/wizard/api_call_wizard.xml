@@ -1,0 +1,42 @@
+<odoo>
+    <record id="api_call_wizard_view" model="ir.ui.view">
+        <field name="name">api.call.wizard.view</field>
+        <field name="model">api.call.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Api Call Wizard">
+                    <group>
+                        <field name="is_warehouse" invisible="1"/>
+                        <field name="is_product" invisible="1"/>
+                        <field name="is_brand" invisible="1"/>
+                        <field name="is_category" invisible="1"/>
+                        <field name="is_sub_category" invisible="1"/>
+                        <field name="is_segment" invisible="1"/>
+                        <field name="warehouse_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_warehouse', '=', False)]}"/>
+                        <field name="product_temp_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_product', '=', False)]}"/>
+                        <field name="brand_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_brand', '=', False)]}"/>
+                        <field name="category_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_category', '=', False)]}"/>
+                        <field name="sub_category_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_sub_category', '=', False)]}"/>
+                        <field name="segment_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_segment', '=', False)]}"/>
+                    </group>
+            <footer>
+                <button name="update_to_app_product" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_product', '=', False)]}"/>
+                <button name="update_to_app_warehouse" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_warehouse', '=', False)]}"/>
+                <button name="update_to_app_brand" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_brand', '=', False)]}"/>
+                <button name="update_to_app_category" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_category', '=', False)]}"/>
+                <button name="update_to_app_sub_category" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_sub_category', '=', False)]}"/>
+                <button name="update_to_app_segment" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_segment', '=', False)]}"/>
+                <button string="Cancel" class="btn-primary" special="cancel"/>
+            </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="api_call_wizard_action" model="ir.actions.act_window">
+        <field name="name">Api Call Wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">api.call.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="api_call_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

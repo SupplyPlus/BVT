@@ -1,0 +1,16 @@
+<odoo>
+    <record id="product_attribute_view_inherited" model="ir.ui.view">
+        <field name="name">product.attribute.inherit</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="arabic_name"/>
+            </xpath>
+
+            <xpath expr="//field[@name='value_ids']/tree/field[@name='name']" position="after">
+                <field name="arabic_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

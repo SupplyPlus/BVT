@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+
+        <record id="stock.stock_product_normal_action" model="ir.actions.act_window">
+            <field name="context">{'default_is_created_from_variant_menu': True}</field>
+        </record>
+
+        <record id="product.product_normal_action_sell" model="ir.actions.act_window">
+            <field name="context">{"search_default_filter_to_sell":1, 'default_is_created_from_variant_menu': True}</field>
+        </record>
+
+        <record id="purchase.product_product_action" model="ir.actions.act_window">
+            <field name="context">{"search_default_filter_to_purchase": 1, 'default_is_created_from_variant_menu': True}</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_product_variant_form_inherit">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="is_created_from_variant_menu" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="paperformat_ageing_report" model="report.paperformat">
+        <field name="name">Ageing Report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">45</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">40</field>
+        <field name="dpi">90</field>
+    </record>
+
+
+<!--    <report-->
+<!--            id="report_ageing"-->
+<!--            string="Ageing Report"-->
+<!--            model="ageing.report.wizard"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="ids_ageing_report.ageing_report_template"-->
+<!--            file="ids_ageing_report.ageing_report_template"-->
+<!--            paperformat="ids_ageing_report.paperformat_ageing_report"-->
+<!--    />-->
+
+        <report
+            id="report_ageing_xlsx"
+            string="Ageing Report"
+            model="ageing.report.wizard"
+            report_type="xlsx"
+            name="ageing.xlsx"
+            file="Ageing report"
+            paperformat="ids_ageing_report.paperformat_ageing_report"
+    />
+
+</odoo>

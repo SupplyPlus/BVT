@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_brand_form" model="ir.ui.view">
+         <field name="name">brand.form</field>
+        <field name="model">product.brand</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="arabic_name"/>
+                            <field name="segment_ids" widget="many2many_tags"/>
+                            <field name="position"/>
+                            <field name="status"/>
+                            <field name="web_image" widget="image" options="{'size': [120, 120]}"/>
+                         </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_brand_tree" model="ir.ui.view">
+        <field name="name">brand.tree</field>
+        <field name="model">product.brand</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_product_brand" model="ir.actions.act_window">
+        <field name="name">Brand</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.brand</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <menuitem id="menu_product_brand"
+              name="Brand"
+              parent="stock.menu_product_in_config_stock"
+              action="action_product_brand"
+              sequence="0"/>
+</odoo>

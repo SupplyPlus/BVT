@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="invoices_report">
+            <!--            <t t-foreach="docs" t-as="doc">-->
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <!--                            <div t-attf-class="#{'col-5' if report_type != 'html' else 'col-sm-5 col-md-6'}">-->
+                    <!--                                <div style="text-right; background-color:#FFF">-->
+                    <!--                                    <t t-esc="doc.generate_qr_code()"/>-->
+                    <!--                                    <img t-att-src="image_data_uri(doc.qr_code)" style="max-height: 150px;"-->
+                    <!--                                         alt="QR Code"/>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <br/>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B" class="mt10">
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:bold;border-top:1px solid white;border-bottom:1px solid white;border-right:1px solid white"
+                                    width="20%"
+                                    class="text-right">
+                                    اسم العميل
+                                </td>
+                                <td width="35%" class="text-center">
+                                    <span t-esc="doc.partner_id.name" style="font-weight:bold;"/>
+                                </td>
+                                <td width="15%" class="text-right"
+                                    style="font-weight:bold;padding-right:8px;border-top:1px solid white;border-bottom:1px solid white">
+                                    المدينة
+                                </td>
+                                <td width="30%" class="text-center">
+                                    <span
+                                            t-field="doc.partner_id.city" style="font-weight:bold;"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B" class="mt-10">
+                        <tbody>
+                            <tr>
+                                <td width="20%"
+                                    style="font-weight:bold;border-top:1px solid white;border-bottom:1px solid white;border-right:1px solid white"
+                                    class="text-right">
+                                    الرقم الضريبى للعميل
+                                </td>
+                                <td width="35%" class="text-center">
+                                    <span t-esc="doc.partner_id.vat" style="font-weight:bold;"/>
+                                </td>
+                                <td width="15%" class="text-right"
+                                    style="font-weight:bold;padding-right:8px;border-top:1px solid white;border-bottom:1px solid white">
+                                    نوع المستند
+                                </td>
+                                <td width="30%" class="text-center" style="font-weight:bold;">
+                                    فاتورة مبيعات
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B" class="mt-10">
+                        <tbody>
+                            <tr>
+                                <td width="20%" class="text-right"
+                                    style="font-weight:bold;border-top:1px solid white;border-bottom:1px solid white;border-right:1px solid white">
+                                    رقم العميل
+                                </td>
+                                <td width="35%" class="text-center" style="font-weight:bold;">
+                                    <span
+                                            t-field="doc.partner_id.ref"/>
+                                </td>
+                                <td width="15%" class="text-right"
+                                    style="font-weight:bold;padding-right:8px;border-top:1px solid white;border-bottom:1px solid white">
+                                    طريقة الدفع
+                                </td>
+                                <td width="30%" class="text-center" style="font-weight:bold;">
+                                    <span
+                                            t-field="doc.invoice_payment_term_id.name"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B" class="mt-10">
+                        <tbody>
+                            <tr>
+                                <td width="20%" class="text-right"
+                                    style="font-weight:bold;border-top:1px solid white;border-bottom:1px solid white;border-right:1px solid white">
+                                    رصيد العميل
+                                </td>
+                                <td width="35%" class="text-center">
+                                    <span t-esc="'%.2f'% doc.partner_id.total_due" style="font-weight:bold;"/>
+                                </td>
+                                <td width="15%" class="text-right"
+                                    style="font-weight:bold;padding-right:8px;border-top:1px solid white;border-bottom:1px solid white">
+                                    رقم المستند
+                                </td>
+                                <td width="30%" class="text-center" style="font-weight:bold;">
+                                    <span t-esc="doc.name"/>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B">
+                        <tbody>
+                            <tr>
+                                <td width="20%" class="text-right"
+                                    style="font-weight:bold;border-top:1px solid white;border-bottom:1px solid white;border-right:1px solid white">
+                                    التاريخ
+                                </td>
+                                <td width="35%" class="text-center" style="font-weight:bold;">
+                                    <span
+                                            t-esc="doc.invoice_date.strftime('%Y-%m-%d')"/>
+                                </td>
+                                <td width="15%" class="text-right"
+                                    style="font-weight:bold;padding-right:8px;border-top:1px solid white;border-bottom:1px solid white">
+                                    تاريخ الاستحقاق
+                                </td>
+                                <td width="30%" class="text-center" style="font-weight:bold;">
+                                    <span t-esc="doc.invoice_date_due"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B"
+                           class="table table-sm o_main_table"
+                           name="details_line_table">
+                        <tbody sytle="border-top:none">
+                            <tr>
+                                <th style="font-weight:bold;vertical-align:middle" width="15%"
+                                    class="text-center">
+                                    <span>رقم الصنف</span>
+                                    <br/>
+                                    <span>Item No.</span>
+                                </th>
+                                <th style="font-weight:bold;vertical-align:middle" width="40%"
+                                    class="text-center">
+                                    <span>البيان</span>
+                                    <br/>
+                                    <span>Description</span>
+                                </th>
+                                <th style="font-weight:bold;vertical-align:middle" width="10%"
+                                    class="text-center">
+                                    <span>الوحدة</span>
+                                    <br/>
+                                    <span>Unit</span>
+                                </th>
+                                <th style="font-weight:bold;vertical-align:middle" width="10%"
+                                    class="text-center">
+                                    <span>الكمية</span>
+                                    <br/>
+                                    <span>Qty</span>
+                                </th>
+                                <th style="font-weight:bold;vertical-align:middle" width="10%"
+                                    class="text-center">
+                                    <span>السعر الافرادى</span>
+                                    <br/>
+                                    <span>Unit Price</span>
+                                </th>
+                                <th style="font-weight:bold;vertical-align:middle" width="15%"
+                                    class="text-center">
+                                    <span>السعر الاجمالى</span>
+                                    <br/>
+                                    <span>Total Price</span>
+                                </th>
+                            </tr>
+                            <t t-set="counter" t-value="1"/>
+                            <t t-set="total_discount" t-value="0"/>
+                            <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                <tr>
+                                    <t t-if="line.display_type == 'product'">
+                                        <t t-set="total_discount"
+                                           t-value="total_discount + ((line.discount*line.price_unit*line.quantity)/100) "/>
+
+                                        <td width="15%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-esc="line.product_id.default_code"/>
+                                        </td>
+                                        <td width="40%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-field="line.product_id.name"/>
+                                        </td>
+                                        <td width="10%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-field="line.product_uom_id.name"/>
+                                        </td>
+                                        <td width="10%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-field="line.quantity"/>
+                                        </td>
+                                        <td width="10%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-field="line.price_unit"/>
+                                        </td>
+                                        <td width="15%" class="text-center" style="font-weight:bold;">
+                                            <span
+                                                    t-esc="line.price_subtotal"/>
+                                        </td>
+                                        <t t-set="counter" t-value="counter + 1"/>
+                                    </t>
+
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div style="font-weight:bold;font-size:30px" class="text-center">
+                        التفاصيل الاجمالية
+                    </div>
+                    <br/>
+                    <table width="100%" style="direction:rtl;border-color:#B8860B"
+                           class="table mt-0 table-sm o_main_table"
+                           name="details_line_table">
+                        <tbody>
+                            <tr>
+                                <td width="15%" class="text-center" style="font-weight:bold;">
+                                    <span t-field="doc.amount_untaxed"/>
+                                </td>
+                                <td width="20%" class="text-center" style="font-weight:bold;">
+                                    <span>الاجمالى</span>
+                                    (<span>Totals</span>)
+                                </td>
+                                <td width="65%" class="text-center" style="font-weight:bold;">
+                                    <span
+                                            t-field="doc.amount_untaxed_words"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td width="15%" class="text-center" style="font-weight:bold;">
+                                    <span t-esc="total_discount"/>
+                                </td>
+                                <td width="20%" class="text-center" style="font-weight:bold;">
+                                    <span>الخصم</span>
+                                    (<span>Discount</span>)
+                                </td>
+                                <td width="65%" class="text-center" style="font-weight:bold;">
+                                    <!--                                            <t t-esc="doc.amount_total_words"/>-->
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td width="15%" class="text-center" style="font-weight:bold;">
+                                    <span t-field="doc.amount_tax"/>
+                                </td>
+                                <td width="20%" class="text-center" style="font-weight:bold;">
+                                    <span>القيمة المضافة</span>
+                                    (<span>Vat</span>)
+                                </td>
+                                <td width="65%" class="text-center" style="font-weight:bold;">
+                                    <t t-esc="doc.amount_tax_words"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td width="15%" class="text-center" style="font-weight:bold;">
+                                    <t t-esc="doc.amount_total"/>
+                                </td>
+                                <td width="20%" class="text-center" style="font-weight:bold;">
+                                    <span>الصافى</span>
+                                    (<span>Net Amount</span>)
+                                </td>
+                                <td width="65%" class="text-center " style="font-weight:bold;">
+                                    <t t-esc="doc.amount_total_words"/>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div class="row mt32 mb32" style="direction:rtl">
+                        <div class="col-5" style="direction_rtl;">
+                            <div class="text-right row" style="direction:rtl"
+                            >
+                                <div class="text-right col-6"
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    اسم المستلم :
+                                </div>
+                                <div class="text-right col-6"
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    ......................................
+                                </div>
+                            </div>
+                            <div class="text-right row" style="direction:rtl"
+                            >
+
+                                <div class="text-right col-6"
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    التوقيع :
+                                </div>
+
+                                <div class="text-right col-6"
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    ......................................
+                                </div>
+                            </div>
+                            <div class="text-right row" style="direction:rtl"
+                            >
+
+                                <div class="text-right col-6 "
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    رقم الجوال :
+                                </div>
+                                <div class="text-right col-6"
+                                     style="font-weight:bold;color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    ......................................
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-2" style="padding-top:0px">
+                            <div class="text-center center" style="text-align:center; background-color:#FFF">
+                                <img t-if="doc.l10n_sa_qr_code_str" style="display:block;"
+                                     t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.l10n_sa_qr_code_str, 140, 140)"/>
+                                <t t-esc="doc.generate_qr_code()"/>
+                                <!--                                                                <img t-att-src="image_data_uri(doc.qr_code)" style="max-height: 150px;"-->
+                                <!--                                                                     alt="QR Code"/>-->
+                            </div>
+                            <div class="text-center" style="font-weight:bold;font-size:16px">
+                                <t t-if="doc.partner_id.vat">
+                                    <span>
+                                        فاتورة ضريبية
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span>
+                                        فاتورة ضريبية مبسطة
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-5" style="font-weight:bold;direction_rtl;padding-right:30px">
+                            <div class="text-right row" style="direction:rtl"
+                            >
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    اسم المندوب :
+                                </div>
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    <t t-if="doc.sales_rep">
+                                        <span t-esc="doc.sales_rep.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span>
+                                            ......................................
+                                        </span>
+                                    </t>
+
+                                </div>
+
+
+                            </div>
+                            <div class="text-right row" style="direction:rtl"
+                            >
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    التوقيع :
+                                </div>
+
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    ......................................
+                                </div>
+                            </div>
+                            <div class="text-right row" style="direction:rtl"
+                            >
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    رمز المندوب :
+                                </div>
+                                <div class="text-left col-6"
+                                     style="color:#4682b4;font-size:14px;font-weight:bold;padding-left:10px;padding-bottom:7px;direction:rtl">
+                                    ......................................
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </t>
+            <!--            </t>-->
+        </template>
+
+        <template id="invoices_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.partner_id.lang"/>
+                    <t
+                            t-call="ids_invoice_report_custom.invoices_report" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

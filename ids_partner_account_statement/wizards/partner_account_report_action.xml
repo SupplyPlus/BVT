@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_a4_account_book" model="report.paperformat">
+            <field name="name">A4 customize</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">37</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+        <record id="account_book_report_id" model="ir.actions.report">
+            <field name="name">Partner Account Statement</field>
+            <field name="model">account.partner.statement</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="ids_partner_account_statement.paperformat_a4_account_book"/>
+            <field name="report_name">ids_partner_account_statement.account_book_template</field>
+            <field name="report_file">ids_partner_account_statement.account_book_template</field>
+        </record>
+        <record id="account_book_report_excel" model="ir.actions.report">
+            <field name="name">Account Book Report Excel</field>
+            <field name="model">report.ids_partner_account_statement.account_book_excel</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">ids_partner_account_statement.account_book_excel</field>
+            <field name="report_file">ids_partner_account_statement.account_book_excel</field>
+        </record>
+
+
+    </data>
+</odoo>
