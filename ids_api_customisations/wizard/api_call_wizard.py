@@ -17,6 +17,8 @@ class ApiCallWizard(models.TransientModel):
     is_sub_category = fields.Boolean(string='Sub Category')
     segment_ids = fields.Many2many('product.segment', string='Sub Segments')
     is_segment = fields.Boolean(string='Segment')
+    is_vendor = fields.Boolean(string="Vendor")
+    vendor_ids = fields.Many2many('res.partner',string="Vendors")
 
     def update_to_app_warehouse(self):
         """Updates datas to api"""
@@ -78,6 +80,17 @@ class ApiCallWizard(models.TransientModel):
                 if rec.optional_product_ids:
                     for opt_pro in rec.optional_product_ids:
                         similar_products.append(opt_pro.id)
+                seller_data = []
+                if rec.seller_ids:
+                    for seller in rec.seller_ids:
+                        seller_dict = {}
+                        seller_dict.update({
+                            'vendor_id':seller.partner_id.id,
+                            'vendor_name':seller.partner_id.name,
+                            'price':seller.price
+                        })
+                        seller_data.append(seller_dict)
+
 
                 product_ids = self.env['product.product'].sudo().search(
                     [('product_tmpl_id', '=', rec.id)])
@@ -137,6 +150,7 @@ class ApiCallWizard(models.TransientModel):
                     "arabic_description": rec.arabic_description if rec.arabic_description else False,
                     "show_list": 1 if rec.show_list else 0,
                     "variants": product_datas,
+                    "vendor_data":seller_data
                 }
                 data_list.append(datas)
 
@@ -262,5 +276,56 @@ class ApiCallWizard(models.TransientModel):
 
         payload = {
             "datas": segments
+        }
+        response = requests.post(url, json=payload, headers=headers)
+
+    def update_to_app_vendor(self):
+        """Updates datas to api"""
+
+        url = 'https://supplyplus.app/odoo/api/vendor.php'
+
+        headers = {
+            'Authorization': 'Bearer wgefiesrykgfowerlisu',
+            'Content-Type': 'application/json'
+        }
+
+        vendors = []
+        banks = []
+        if self.vendor_ids:
+            for vendor in self.vendor_ids:
+                bank_dict = {}
+                if vendor.bank_ids:
+                    for bank in vendor.bank_ids:
+                        bank_dict.update({
+                            'account_holder_name':bank.acc_holder_name,
+                            'bank_name':bank.bank_id.name,
+                            'iban':bank.bank_id.bic,
+                            'branch':bank.bank_id.street
+                        })
+                        banks.append(bank_dict)
+                vendor_name = vendor.name.split(' ')
+                first_name = ''
+                last_name = ''
+                if len(vendor_name) > 1:
+                    first_name = vendor_name[0]
+                    last_name = vendor_name[1]
+                else:
+                    first_name = vendor.name
+                    last_name = vendor.name
+                vals = {
+                    'id': vendor.id,
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'email':vendor.email or False,
+                    'mobile_number':vendor.mobile or vendor.phone,
+                    "vat_number":vendor.vat or False,
+                    'address': vendor.street or False,
+                    'profile_image': vendor.image_1920.decode() if vendor.image_1920 else False,
+                    'bank':banks
+                }
+                vendors.append(vals)
+
+        payload = {
+            "datas": vendors
         }
         response = requests.post(url, json=payload, headers=headers)

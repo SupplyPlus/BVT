@@ -72,5 +72,17 @@
             </field>
         </record>
 
+         <record id="model_res_partner_inherit" model="ir.actions.server">
+            <field name="name">UPDATE TO APP</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="binding_model_id" ref="model_res_partner"/>
+            <field name="type">ir.actions.server</field>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                action= model.action_res_partner_api_call()
+            </field>
+        </record>
+
     </data>
 </odoo>

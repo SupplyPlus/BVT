@@ -11,12 +11,14 @@
                         <field name="is_category" invisible="1"/>
                         <field name="is_sub_category" invisible="1"/>
                         <field name="is_segment" invisible="1"/>
+                        <field name="is_vendor" invisible="1"/>
                         <field name="warehouse_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_warehouse', '=', False)]}"/>
                         <field name="product_temp_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_product', '=', False)]}"/>
                         <field name="brand_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_brand', '=', False)]}"/>
                         <field name="category_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_category', '=', False)]}"/>
                         <field name="sub_category_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_sub_category', '=', False)]}"/>
                         <field name="segment_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_segment', '=', False)]}"/>
+                        <field name="vendor_ids" options="{'no_create_edit': True, 'no_create': True}" widget="many2many_tags" attrs="{'invisible': [('is_vendor', '=', False)]}"/>
                     </group>
             <footer>
                 <button name="update_to_app_product" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_product', '=', False)]}"/>
@@ -25,6 +27,7 @@
                 <button name="update_to_app_category" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_category', '=', False)]}"/>
                 <button name="update_to_app_sub_category" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_sub_category', '=', False)]}"/>
                 <button name="update_to_app_segment" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_segment', '=', False)]}"/>
+                <button name="update_to_app_vendor" string="Update To App" class="btn-primary" type="object" attrs="{'invisible': [('is_vendor', '=', False)]}"/>
                 <button string="Cancel" class="btn-primary" special="cancel"/>
             </footer>
             </form>
