@@ -7,3 +7,4 @@ from . import product_attribute
 from . import product_category
 from . import product_sub_category
 from . import stock_warehouse
+from . import res_partner
